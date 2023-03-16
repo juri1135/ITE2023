@@ -10,6 +10,7 @@ public class StaffManager {
 	     System.out.println(P.toString());
 	     System.out.println(A.toString());
 	     System.out.println("---");
+	     System.out.println("Same Career?");
 	     if(!P.sameCareer(A)){
 	        A.setCareer(P);
 	        P.sameCareer(A);
