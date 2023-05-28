@@ -23,8 +23,9 @@ public class Buffer {
 	}
 	public synchronized void add(Lab12.ProdCons.Producer p, double toAdd) throws InterruptedException{
 		//data 배열이 다 차면(loc(배열의 인덱스)가 data 크기보다 크거나 같을 때) buffer is full 출력
-		//이게 for문이라면 정해진 횟수만큼 혹은 그것보다 적게 돌아야 한다. 그런데 우리는 buffer가 가득 찬 상태인 동안은 반복문을 계속 돌게 만들고 싶기 때문에 for문은 적절하지 않다. 
-		//특히나 다른 thread에서 buffer의 상태가 변한다면 조건이 변하기 때문에 while문을 통해 조건을 계속 확인해주는 게 적절하다.
+		//if문을 사용한다면 한 thread가 깨어나서 buffer의 상태를 확인할 때 이미 다른 thread를 통해 buffer가 바꼈을 수도 있음.
+		//이 경우 thread race condition을 만들어낸다. 또한 thread가 대기 상태일 때 예기치 않게 thread가 깨어날 수도 있는데 while문이라면 다시 조건 확인 후
+		//thread를 재울 수 있음 그러나 if문이라면 이미 조건 확인이 끝났기 때문에 다시 조건을 확인하는 과정 없이 진행한다.
 		while(loc>=data.length) {
 			System.out.println("Producer#"+p.getNum()+"try "+loc+" @ Buffer is full.\n");
 			wait();//다 찬 상태면 thread wait 상태로 만들기
@@ -37,8 +38,9 @@ public class Buffer {
 	}
 	public synchronized double remove(Lab12.ProdCons.Consumer consumer) throws InterruptedException{
 		//data 배열이 비어 있다면(loc(배열의 인덱스)가 0보다 작거나 같을 때) buffer is empty 출력
-		//이게 for문이라면 정해진 횟수만큼 혹은 그것보다 적게 돌아야 한다. 그런데 우리는 buffer가 비어 있는 동안은 반복문을 계속 돌게 만들고 싶기 때문에 for문은 적절하지 않다. 
-		//특히나 다른 thread에서 buffer의 상태가 변한다면 조건이 변하기 때문에 while문을 통해 조건을 계속 확인해주는 게 적절하다.
+		//if문을 사용한다면 한 thread가 깨어나서 buffer의 상태를 확인할 때 이미 다른 thread를 통해 buffer가 바꼈을 수도 있음.
+		//이 경우 thread race condition을 만들어낸다. 또한 thread가 대기 상태일 때 예기치 않게 thread가 깨어날 수도 있는데 while문이라면 다시 조건 확인 후
+		//thread를 재울 수 있음 그러나 if문이라면 이미 조건 확인이 끝났기 때문에 다시 조건을 확인하는 과정 없이 진행한다.
 		while(loc<=0) {
 			System.out.println("Consumer#"+consumer.getNum()+" 0 Buffer is empty.\n");
 			wait();//비어 있는 상태면 thread wait 상태로 만들기
