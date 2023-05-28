@@ -14,7 +14,7 @@ public class ProdCons {
 		}
 		
 	}
-	public class Producer extends Thread{
+	private class Producer extends Thread{
 		private static int serial=0;//호출될 때마다 인덱스 증가시켜야 해서 static으로 선언
 		private int pNum;//인덱스
 		private final Buffer buffer;
@@ -26,7 +26,7 @@ public class ProdCons {
 			//buffer의 add를 호출하여 무작위로 생성된 값(0~100 실수)을 Buffer 배열에 추가(배열의 크기만큼 반복)
 			for(int i=0; i<buffer.getSize(); i++) {
 				System.out.println("Producer#"+this.pNum+":"+this);
-				buffer.add(this, Math.random()*100);//buffer에 1~100에 해당하는 난수 추가
+				buffer.add(this.getNum(), Math.random()*100);//buffer에 1~100에 해당하는 난수 추가
 			}
 		}
 		public void run() {
@@ -40,7 +40,7 @@ public class ProdCons {
 		}
 		public int getNum() { return pNum;}//해당 인덱스 return
 	}
-	public class Consumer extends Thread{
+	private class Consumer extends Thread{
 		private final Buffer buffer;
 		private static int serial=0;//호출될 때마다 인덱스 증가시켜야 해서 static으로 선언
 		private int pNum;//인덱스
@@ -52,7 +52,7 @@ public class ProdCons {
 			//buffer의 remove를 호출해서 Buffer 배열에서 삭제(배열의 크기만큼 반복)
 			for(int i=buffer.getSize(); i>0; i--) {
 				System.out.println("Consumer#"+this.pNum+":"+this);
-				buffer.remove(this);
+				buffer.remove(this.getNum());
 			}
 		}
 		public void run() {//실행할 부분 overriding
