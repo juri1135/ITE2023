@@ -1,6 +1,6 @@
 package Lab13;
 
-public class DigitObserver implements Observer{
+public class DigitObserver implements Observer{//interface 실행하는 코드니까 update 함수 작성해야 함
 	private NumberGenerator num;
 	
 	public DigitObserver(NumberGenerator num) {
