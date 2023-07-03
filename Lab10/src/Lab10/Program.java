@@ -3,6 +3,7 @@ import java.util.*;
 public class Program {
 	
 	public static void main(String[] args) {
+		
 		Dog dog=new Dog();
 		Tiger tiger=new Tiger();
 		Turtle turtle=new Turtle();
